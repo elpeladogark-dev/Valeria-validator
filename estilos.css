@@ -45,6 +45,12 @@ textarea {
   background-color: #574fd6;
 }
 
+.botonera button.desactivado {
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
+}
+
 #resultado {
   background-color: #fff;
   border: 1px solid #ccc;
@@ -55,12 +61,4 @@ textarea {
   font-family: 'Courier New', monospace;
   font-size: 14px;
   line-height: 1.5;
-}
-
-/* 🌸 Modo afectivo (activable desde JS si querés usarlo) */
-.afectivo {
-  background-color: #ffe6f0;
-  color: #a33;
-  font-style: italic;
-  border: 1px solid #e0b3c2;
 }
