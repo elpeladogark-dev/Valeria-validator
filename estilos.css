@@ -1,77 +1,73 @@
+/* Estilo general del cuerpo */
 body {
-  background-color: #f4f4f4;
-  font-family: 'Segoe UI', sans-serif;
-  color: #333;
-  padding: 20px;
-  max-width: 800px;
-  margin: auto;
+  background-color: #121212;
+  color: #e0e0e0;
+  font-family: 'Courier New', monospace;
+  margin: 0;
+  padding: 24px;
 }
 
+/* Título principal */
 h1 {
-  color: #6c63ff;
-  text-align: center;
-  margin-bottom: 20px;
+  font-size: 24px;
+  margin-bottom: 24px;
+  color: #00ff88;
 }
 
-textarea {
+/* Área de entrada JSON */
+.json-input {
   width: 100%;
   height: 200px;
-  padding: 12px;
+  font-family: 'Courier New', monospace;
   font-size: 14px;
-  border: 1px solid #ccc;
+  padding: 12px;
+  margin-bottom: 16px;
   border-radius: 6px;
+  background-color: #2b2b2b;
+  color: #e0e0e0;
+  border: 1px solid #444;
   resize: vertical;
-  box-sizing: border-box;
-  margin-bottom: 12px;
 }
 
-.botonera {
-  margin-top: 10px;
-}
-
-.botonera button {
-  background-color: #6c63ff;
-  color: white;
+/* Botón de validación */
+.boton-validar {
+  padding: 10px 20px;
+  background-color: #00ff88;
+  color: #000;
+  font-weight: bold;
   border: none;
-  padding: 10px 16px;
-  margin: 6px 4px;
   border-radius: 6px;
   cursor: pointer;
-  font-weight: bold;
   transition: background-color 0.3s ease;
 }
 
-.botonera button:hover {
-  background-color: #574fd6;
+.boton-validar:hover {
+  background-color: #00cc66;
 }
 
-.botonera button.desactivado {
-  background-color: #ccc;
-  color: #666;
-  cursor: not-allowed;
-}
-
-#resultado {
-  background-color: #fff;
-  border: 1px solid #ccc;
-  padding: 12px;
-  margin-top: 12px;
-  white-space: pre-wrap;
-  border-radius: 6px;
+/* Ventana explicativa de Valeria */
+.ventana-valeria {
+  background-color: #1e1e1e;
+  color: #e0e0e0;
+  padding: 16px;
+  border-radius: 8px;
   font-family: 'Courier New', monospace;
   font-size: 14px;
   line-height: 1.5;
-}
-
-.registro {
-  background-color: #eef;
-  border: 1px solid #99c;
-  padding: 12px;
   margin-top: 12px;
   white-space: pre-wrap;
-  border-radius: 6px;
-  font-family: 'Courier New', monospace;
-  font-size: 13px;
-  line-height: 1.5;
-  color: #333;
+  box-shadow: 0 0 8px rgba(0, 255, 150, 0.2);
+}
+
+/* Colores para mensajes dinámicos */
+span[style*="color:green"] {
+  font-weight: bold;
+}
+
+span[style*="color:red"] {
+  font-weight: bold;
+}
+
+span[style*="color:orange"] {
+  font-weight: bold;
 }
