@@ -1,30 +1,4 @@
-let jsonOriginal = "" // Guarda el bloque original
-let jsonCorregido = "" // Guarda la versión corregida
-
-function detectarDuplicados(obj, ruta = "", registro = [], contexto = {}) {
-  const claves = new Set()
-  for (const clave in obj) {
-    const path = ruta ? `${ruta}.${clave}` : clave
-    if (claves.has(clave)) {
-      if (!esRepeticionFuncional(clave, path, obj)) {
-        registro.push({ tipo: "error", mensaje: `🔁 Duplicado detectado en ${path}`, ruta: path })
-      } else {
-        registro.push({ tipo: "permitido", mensaje: `🧩 Repetición funcional permitida en ${path}`, ruta: path })
-      }
-    } else {
-      claves.add(clave)
-    }
-    if (typeof obj[clave] === "object" && obj[clave] !== null) {
-      detectarDuplicados(obj[clave], path, registro, contexto)
-    }
-  }
-  return registro
-}
-
-function esRepeticionFuncional(clave, ruta, obj) {
-  const secciones = ruta.split(".")
-  return secciones.includes("activadores") || secciones.includes("modulo") || secciones.includes("validadores")
-}
+let jsonOriginal = ""
 
 function validarJSON() {
   const input = document.getElementById("jsonInput").value
@@ -35,19 +9,20 @@ function validarJSON() {
   try {
     const bloque = JSON.parse(input)
     const duplicados = detectarDuplicados(bloque)
+
     if (duplicados.some(d => d.tipo === "error")) {
-      canon.push("🛡️ Corrección simbólica iniciada:")
+      canon.push("🛡️ Duplicados detectados:")
       duplicados.forEach(d => canon.push(d.mensaje))
-      document.getElementById("corregirBtn").style.display = "inline-block"
+      document.getElementById("corregirBtn").style.display = "none"
       document.getElementById("restaurarBtn").style.display = "none"
     } else {
-      canon.push("✅ JSON validado. Blindaje simbólico intacto.")
+      canon.push("✅ JSON validado. Blindaje simbólico intacto.\nNo se detectaron duplicados ni errores de sintaxis.")
       document.getElementById("corregirBtn").style.display = "none"
       document.getElementById("restaurarBtn").style.display = "none"
     }
   } catch (e) {
-    canon.push(`❌ Error de sintaxis: ${e.message}`)
-    document.getElementById("corregirBtn").style.display = "none"
+    canon.push(`❌ Error de sintaxis: ${e.message}\nPodés intentar repararlo con el botón de corrección.`)
+    document.getElementById("corregirBtn").style.display = "inline-block"
     document.getElementById("restaurarBtn").style.display = "none"
   }
 
@@ -55,35 +30,55 @@ function validarJSON() {
 }
 
 function corregirJSON() {
-  try {
-    let bloque = JSON.parse(jsonOriginal)
-    let corregido = eliminarDuplicados(bloque)
-    jsonCorregido = JSON.stringify(corregido, null, 2)
-    document.getElementById("jsonInput").value = jsonCorregido
-    document.getElementById("restaurarBtn").style.display = "inline-block"
-    validarJSON()
-  } catch (e) {
-    document.getElementById("resultado").textContent = `❌ Error al corregir: ${e.message}`
-  }
-}
+  const input = document.getElementById("jsonInput").value
+  const resultado = document.getElementById("resultado")
+  jsonOriginal = input
+  let canon = []
 
-function eliminarDuplicados(obj) {
-  if (Array.isArray(obj)) {
-    return obj.map(eliminarDuplicados)
-  } else if (typeof obj === "object" && obj !== null) {
-    const nuevo = {}
-    for (const clave in obj) {
-      if (!nuevo.hasOwnProperty(clave)) {
-        nuevo[clave] = eliminarDuplicados(obj[clave])
-      }
-    }
-    return nuevo
-  }
-  return obj
+  const reparado = sanarSintaxisJSON(input)
+  document.getElementById("jsonInput").value = reparado
+  canon.push("🔧 Sintaxis reparada. Podés validar nuevamente.")
+  document.getElementById("restaurarBtn").style.display = "inline-block"
+
+  resultado.textContent = canon.join("\n")
 }
 
 function restaurarJSON() {
   document.getElementById("jsonInput").value = jsonOriginal
+  document.getElementById("resultado").textContent = "♻️ JSON original restaurado."
   document.getElementById("restaurarBtn").style.display = "none"
-  validarJSON()
-                          }
+  document.getElementById("corregirBtn").style.display = "none"
+}
+
+function sanarSintaxisJSON(texto) {
+  return texto
+    .replace(/,\s*,/g, ",")       // Comas duplicadas
+    .replace(/,\s*}/g, "}")       // Coma antes de cerrar llave
+    .replace(/,\s*]/g, "]")       // Coma antes de cerrar corchete
+    .replace(/}\s*{/g, "},\n{")   // Objetos pegados sin coma
+}
+
+function detectarDuplicados(objeto, ruta = "") {
+  let claves = new Set()
+  let duplicados = []
+
+  for (let clave in objeto) {
+    const actual = typeof objeto[clave] === "object" ? objeto[clave] : null
+    const rutaActual = ruta ? `${ruta}.${clave}` : clave
+
+    if (claves.has(clave)) {
+      duplicados.push({
+        tipo: "error",
+        mensaje: `🔁 Clave duplicada en "${rutaActual}"`
+      })
+    } else {
+      claves.add(clave)
+    }
+
+    if (actual && !Array.isArray(actual)) {
+      duplicados = duplicados.concat(detectarDuplicados(actual, rutaActual))
+    }
+  }
+
+  return duplicados
+}
