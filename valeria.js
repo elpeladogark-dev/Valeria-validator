@@ -6,7 +6,7 @@ function validarJSON() {
   jsonOriginal = input
   let canon = []
 
-  // Desactiva corrección por defecto
+  // Desactiva botón de corregir al inicio
   document.getElementById("corregirBtn").classList.add("desactivado")
 
   try {
@@ -21,6 +21,8 @@ function validarJSON() {
     }
   } catch (e) {
     canon.push(`❌ Error de sintaxis: ${e.message}\nPodés intentar repararlo con el botón de corrección.`)
+
+    // Activa botón de corregir si hay error
     document.getElementById("corregirBtn").classList.remove("desactivado")
   }
 
@@ -41,7 +43,7 @@ function corregirJSON() {
   canon.push("🔧 Sintaxis reparada. Podés validar nuevamente.")
   resultado.textContent = canon.join("\n")
 
-  // Desactiva corrección después de aplicar
+  // Desactiva botón después de corregir
   boton.classList.add("desactivado")
 }
 
