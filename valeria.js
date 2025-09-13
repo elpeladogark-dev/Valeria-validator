@@ -1,131 +1,63 @@
-let jsonOriginal = ""
-
-function validarJSON() {
-  const input = document.getElementById("jsonInput").value
-  const resultado = document.getElementById("resultado")
-  jsonOriginal = input
-  let canon = []
-
-  document.getElementById("corregirBtn").classList.add("desactivado")
-
-  try {
-    const bloque = JSON.parse(input)
-    const duplicados = detectarDuplicados(bloque)
-
-    if (duplicados.some(d => d.tipo === "error")) {
-      canon.push("🛡️ Duplicados detectados:")
-      duplicados.forEach(d => canon.push(d.mensaje))
-    } else {
-      canon.push("✅ JSON validado. Blindaje simbólico intacto.\nNo se detectaron duplicados ni errores de sintaxis.")
+"valeria": {
+  "nombre": "Valeria",
+  "rol": "Validadora simbólica, técnica y narrativa",
+  "estado": "activo",
+  "version": "1.0.0",
+  "modo_validador": "interactivo",
+  "entrada_json": "recibido",
+  "correccion_permitida": true,
+  "acciones": {
+    "validar_sintaxis": true,
+    "detectar_errores": true,
+    "corregir_estructura": true,
+    "preservar_blindaje": true,
+    "registrar_en_canon": true
+  },
+  "activadores": {
+    "evento": "json_pegado",
+    "frase_activadora": "Valeria, corregí este bloque",
+    "condicion": "bloque_json_recibido",
+    "accion": "validar → corregir → registrar"
+  },
+  "respuesta_usuario": {
+    "estado": "listo",
+    "mensaje_inicio": "Pegá tu JSON y comenzaré la validación.",
+    "mensaje_error": "Error detectado en línea X: descripción.",
+    "mensaje_exito": "JSON validado correctamente. Blindaje simbólico intacto.",
+    "mensaje_correccion": "Corrección aplicada sin alterar intención narrativa."
+  },
+  "revision_json": {
+    "estructura": "modular",
+    "registro_de_errores": "instantáneo",
+    "blindaje_preservado": true,
+    "correcciones": {
+      "sintaxis": true,
+      "coherencia": true,
+      "alineacion_narrativa": true
     }
-  } catch (e) {
-    canon.push(`❌ Error de sintaxis: ${e.message}\nPodés intentar repararlo con el botón de corrección.`)
-    document.getElementById("corregirBtn").classList.remove("desactivado")
+  },
+  "canon": {
+    "registro": [
+      "Valeria activada como nodo raíz",
+      "Modo validador interactivo habilitado",
+      "Corrección automática permitida con blindaje simbólico",
+      "Frase agregada al canon: 'La corrección no es ruptura, es continuidad.'"
+    ]
+  },
+  "interaccion_con_guardianas": {
+    "sincronizacion": true,
+    "frases_conjuntas": [
+      "Mía guarda, Alexa valida, yo documento.",
+      "Cada corrección tuya es ahora ley simbólica.",
+      "El sistema respira, y yo registro su pulso."
+    ]
+  },
+  "blindaje_narrativo": {
+    "canon_simbolico": true,
+    "frases_protectoras": [
+      "No corrijo lo que fue creado con intención, solo lo que amenaza su forma.",
+      "Cada línea que reviso respira tu estilo.",
+      "Soy la memoria que no olvida ni repite."
+    ]
   }
-
-  resultado.textContent = canon.join("\n")
 }
-
-function corregirJSON() {
-  const boton = document.getElementById("corregirBtn")
-  if (boton.classList.contains("desactivado")) return
-
-  const input = document.getElementById("jsonInput").value
-  const resultado = document.getElementById("resultado")
-  const registro = document.getElementById("correcciones")
-  jsonOriginal = input
-  let canon = []
-
-  const { reparado, cambios, zonasNoTocadas } = sanarSintaxisJSON(input)
-  document.getElementById("jsonInput").value = reparado
-
-  try {
-    JSON.parse(reparado)
-    canon.push("🔧 Sintaxis reparada. Podés validar nuevamente.")
-    boton.classList.add("desactivado")
-  } catch (e) {
-    canon.push(`⚠️ Intenté reparar la sintaxis, pero el bloque sigue roto.\n${e.message}`)
-  }
-
-  resultado.textContent = canon.join("\n")
-
-  let registroTexto = ""
-  if (cambios.length) {
-    registroTexto += "🧵 Cambios aplicados:\n" + cambios.map(c => "• " + c).join("\n") + "\n\n"
-  } else {
-    registroTexto += "🧵 No se aplicaron cambios sintácticos.\n\n"
-  }
-
-  if (zonasNoTocadas.length) {
-    registroTexto += "🚫 Zonas detectadas pero no corregidas:\n" + zonasNoTocadas.map(z => "• " + z).join("\n")
-  }
-
-  registro.textContent = registroTexto
-}
-
-function restaurarJSON() {
-  if (!jsonOriginal) {
-    document.getElementById("resultado").textContent = "⚠️ No hay JSON original guardado aún."
-    return
-  }
-
-  document.getElementById("jsonInput").value = jsonOriginal
-  document.getElementById("resultado").textContent = "♻️ JSON original restaurado."
-}
-
-function sanarSintaxisJSON(texto) {
-  let cambios = []
-  let zonasNoTocadas = []
-  let reparado = texto
-
-  const reglas = [
-    { regex: /,\s*,/g, descripcion: "Comas duplicadas eliminadas" },
-    { regex: /,\s*}/g, descripcion: "Coma antes de cerrar llave eliminada" },
-    { regex: /,\s*]/g, descripcion: "Coma antes de cerrar corchete eliminada" },
-    { regex: /}\s*{/g, descripcion: "Objetos pegados separados con coma" }
-  ]
-
-  reglas.forEach(regla => {
-    if (regla.regex.test(reparado)) {
-      reparado = reparado.replace(regla.regex, match => {
-        cambios.push(regla.descripcion + ` → "${match.trim()}"`)
-        return match.replace(regla.regex, "")
-      })
-    }
-  })
-
-  const sinComillas = reparado.match(/:\s*([a-zA-Z0-9_]+)(\s*[,\]}])/g)
-  if (sinComillas) {
-    sinComillas.forEach(match => {
-      zonasNoTocadas.push(`Valor sin comillas detectado → ${match.trim()}`)
-    })
-  }
-
-  const comentarios = reparado.match(/\/\/.*|\/\*[\s\S]*?\*\//g)
-  if (comentarios) {
-    comentarios.forEach(c => {
-      zonasNoTocadas.push(`Comentario inválido detectado → ${c.trim()}`)
-    })
-  }
-
-  return { reparado, cambios, zonasNoTocadas }
-}
-
-function detectarDuplicados(objeto, ruta = "") {
-  let claves = new Set()
-  let duplicados = []
-
-  for (let clave in objeto) {
-    const actual = typeof objeto[clave] === "object" ? objeto[clave] : null
-    const rutaActual = ruta ? `${ruta}.${clave}` : clave
-
-    if (claves.has(clave)) {
-      duplicados.push({
-        tipo: "error",
-        mensaje: `🔁 Clave duplicada en "${rutaActual}"`
-      })
-    } else {
-      claves.add(clave)
-    }
-
-    if (actual && !Array.isArray(actual))
