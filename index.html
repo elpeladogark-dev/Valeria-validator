@@ -8,15 +8,18 @@
 </head>
 <body>
 
-  <h1>Valeria — Validación simbólica sin eliminación</h1>
+  <h1>Valeria — Validación sin eliminación</h1>
 
-  <!-- Área para pegar el JSON -->
   <textarea id="jsonInput" placeholder="Pegá tu JSON aquí..." class="json-input"></textarea>
 
-  <!-- Botón para activar la validación -->
   <button id="validarBtn" class="boton-validar">Validar con Valeria</button>
 
-  <!-- Ventana explicativa de Valeria -->
+  <div class="botonera-extra">
+    <button id="corregirBtn" class="boton-extra" disabled>Corregir JSON</button>
+    <button id="limpiarVentanaBtn" class="boton-extra">Limpiar ventana</button>
+    <button id="restaurarBtn" class="boton-extra">Restaurar original</button>
+  </div>
+
   <div id="ventanaExplicacionValeria" class="ventana-valeria">
     <!-- Mensajes dinámicos se insertan aquí -->
   </div>
