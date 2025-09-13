@@ -25,7 +25,11 @@ textarea {
   margin-bottom: 12px;
 }
 
-button {
+.botonera {
+  margin-top: 10px;
+}
+
+.botonera button {
   background-color: #6c63ff;
   color: white;
   border: none;
@@ -37,7 +41,7 @@ button {
   transition: background-color 0.3s ease;
 }
 
-button:hover {
+.botonera button:hover {
   background-color: #574fd6;
 }
 
@@ -58,4 +62,5 @@ button:hover {
   background-color: #ffe6f0;
   color: #a33;
   font-style: italic;
-  border: 1px solid
+  border: 1px solid #e0b3c2;
+}
