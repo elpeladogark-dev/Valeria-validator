@@ -2,14 +2,20 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Valeria – Validadora JSON</title>
+  <title>Valeria – Validación simbólica de JSON</title>
   <link rel="stylesheet" href="estilos.css">
 </head>
 <body>
-  <h1>🛡️ Valeria – Validación simbólica de JSON</h1>
+  <h1>Valeria – Validación simbólica de JSON</h1>
+
   <textarea id="jsonInput" placeholder="Pegá tu bloque JSON aquí..."></textarea>
+
   <button onclick="validarJSON()">Validar con Valeria</button>
+  <button id="corregirBtn" onclick="corregirJSON()" style="display:none;">🔧 Corregir automáticamente</button>
+  <button id="restaurarBtn" onclick="restaurarJSON()" style="display:none;">♻️ Restaurar JSON original</button>
+
   <pre id="resultado"></pre>
+
   <script src="valeria.js"></script>
 </body>
 </html>
