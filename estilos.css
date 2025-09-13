@@ -62,3 +62,16 @@ textarea {
   font-size: 14px;
   line-height: 1.5;
 }
+
+.registro {
+  background-color: #eef;
+  border: 1px solid #99c;
+  padding: 12px;
+  margin-top: 12px;
+  white-space: pre-wrap;
+  border-radius: 6px;
+  font-family: 'Courier New', monospace;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #333;
+}
