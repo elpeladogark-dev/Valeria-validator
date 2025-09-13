@@ -10,12 +10,21 @@
 
   <textarea id="jsonInput" placeholder="Pegá tu bloque JSON aquí..."></textarea>
 
-  <button onclick="validarJSON()">Validar con Valeria</button>
-  <button id="corregirBtn" onclick="corregirJSON()" style="display:none;">🔧 Corregir automáticamente</button>
-  <button id="restaurarBtn" onclick="restaurarJSON()" style="display:none;">♻️ Restaurar JSON original</button>
+  <div class="botonera">
+    <button onclick="validarJSON()">✅ Validar con Valeria</button>
+    <button onclick="corregirJSON()">🔧 Corregir automáticamente</button>
+    <button onclick="restaurarJSON()">♻️ Restaurar JSON original</button>
+    <button onclick="limpiarJSON()">🧹 Limpiar área</button>
+  </div>
 
   <pre id="resultado"></pre>
 
   <script src="valeria.js"></script>
+  <script>
+    function limpiarJSON() {
+      document.getElementById("jsonInput").value = ""
+      document.getElementById("resultado").textContent = ""
+    }
+  </script>
 </body>
 </html>
